@@ -3,3 +3,4 @@ venv/
 .env
 venv_litbot/
 books/
+__pycache__
