@@ -1,5 +1,6 @@
 from stats import count_words_and_characters, char_for_report
 import sys
+import pdfplumber
 
 def main():
 

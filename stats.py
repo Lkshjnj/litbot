@@ -1,7 +1,23 @@
-def count_words_and_characters(filepath: str):
-    with open(filepath, encoding="UTF-8") as f:
-        file_contents = f.read()
+import pdfplumber
+from tqdm import tqdm
+import sys
 
+def count_words_and_characters(filepath: str):
+    file_contents = ""
+    try:
+        if ".pdf" in filepath:
+            with pdfplumber.open(filepath) as pdf:
+                total_pages = len(pdf.pages)
+                for page_num in tqdm(range(total_pages), desc="Reading PDF", unit="page"):
+                    page = pdf.pages[page_num]
+                    file_contents += page.extract_text()
+        else:
+            with open(filepath, encoding="UTF-8") as f:
+                file_contents = f.read()
+
+    except Exception as e:
+        print(f"{str(e)}\n [-] Incorrect file type\n [+]Usage: either provide a pdf (with .pdf extension) or a text file")
+        sys.exit(-1)
     word_list = file_contents.split()
     char_dict = {}
     for char in file_contents.lower():
